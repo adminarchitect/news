@@ -8,7 +8,8 @@
         }
     ],
     "require": {
-        "codesleeve/laravel-stapler": "1.0.*"
+        "codesleeve/laravel-stapler": "1.0.*",
+        "cviebrock/eloquent-sluggable": "^3.1"
     },
     "autoload": {
         "psr-0": {

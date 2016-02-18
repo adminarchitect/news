@@ -1,12 +1,15 @@
 <?php
 
-Route::group(['namespace' => 'Laravel\News'], function () {
-    Route::get('news', [
+Route::group([
+    'prefix' => 'news',
+    'namespace' => 'Laravel\News'
+], function () {
+    Route::get('/', [
         'as' => 'news.list',
         'uses' => 'NewsController@index',
     ]);
 
-    Route::get('news/:slug.html', [
+    Route::get('{slug}.html', [
         'as' => 'news.show',
         'uses' => 'NewsController@show',
     ]);

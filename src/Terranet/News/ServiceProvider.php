@@ -2,6 +2,7 @@
 
 namespace Terranet\News;
 
+use Cviebrock\EloquentSluggable\SluggableServiceProvider;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Terranet\News\Console\NewsTableCommand;
 
@@ -14,7 +15,10 @@ class ServiceProvider extends LaravelServiceProvider
         }
 
         $baseDir = base_path("vendor/terranet/news");
-        $this->publishes([$local = "{$baseDir}/publishes/routes.php" => $routes = app_path('Http/Terranet/News/routes.php')], 'routes');
+        $local = "{$baseDir}/publishes/routes.php";
+        $routes = app_path('Http/Terranet/News/routes.php');
+
+        $this->publishes([$local => $routes], 'routes');
 
         if (! $this->app->routesAreCached()) {
             if (file_exists($routes)) {
@@ -30,6 +34,8 @@ class ServiceProvider extends LaravelServiceProvider
     public function register()
     {
         $this->registerCommands();
+
+        $this->app->register(SluggableServiceProvider::class);
     }
 
     protected function registerCommands()

@@ -5,8 +5,6 @@ namespace Terranet\News\Console;
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Composer;
-use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Input\InputOption;
 
 class NewsTableCommand extends Command
 {
@@ -15,7 +13,7 @@ class NewsTableCommand extends Command
      *
      * @var string
      */
-    protected $name = 'news:table';
+    protected $name = 'news:tables';
 
     /**
      * The console command description.
@@ -47,6 +45,7 @@ class NewsTableCommand extends Command
         parent::__construct();
 
         $this->files = $files;
+
         $this->composer = $composer;
     }
 
@@ -59,14 +58,10 @@ class NewsTableCommand extends Command
     {
         $fullPath = $this->createBaseMigration();
 
-
-        $stub = __DIR__ . '/stubs/news.stub';
-
-        if ($this->option('mui')) {
-            $stub = __DIR__ . '/stubs/news_mui.stub';
-        }
-
-        $this->files->put($fullPath, $this->files->get($stub));
+        $this->files->put(
+            $fullPath,
+            $this->files->get(__DIR__ . '/stubs/news.stub')
+        );
 
         $this->info('News tables created successfully!');
 
@@ -85,17 +80,5 @@ class NewsTableCommand extends Command
         $path = $this->laravel->databasePath() . '/migrations';
 
         return $this->laravel['migration.creator']->create($name, $path);
-    }
-
-    /**
-     * Get the console command arguments.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['mui', null, InputOption::VALUE_NONE, 'Create multilingual tables.'],
-        ];
     }
 }
