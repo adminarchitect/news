@@ -1,0 +1,59 @@
+<?php
+
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
+
+class CreateNewsTables extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('news_categories', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('slug', 200)->unique();
+            $table->string('title', 200);
+        });
+
+        Schema::create('news_items', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('slug', 200)->unique();
+            $table->string('title', 200);
+            $table->text('excerpt');
+            $table->longText('body');
+
+            $table->string('image', 255)->nullable();
+
+            $table->string('image_file_name')->nullable();
+            $table->integer('image_file_size')->nullable();
+            $table->string('image_content_type')->nullable();
+            $table->timestamp('image_updated_at')->nullable();
+
+            $table->enum('status', ['draft', 'published', 'archived']);
+            $table->timestamps();
+        });
+
+        Schema::create('news_category_items', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('news_item_id');
+            $table->unsignedInteger('news_category_id');
+
+            $table->foreign('news_item_id')->references('id')->on('news_items')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('news_category_id')->references('id')->on('news_categories')->onDelete('cascade')->onUpdate('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::drop('news');
+    }
+
+}

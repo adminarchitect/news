@@ -1,5 +1,5 @@
 {
-    "name": "laravel/news",
+    "name": "terranet/news",
     "description": "News management package for Laravel",
     "authors": [
         {
@@ -7,10 +7,12 @@
             "email": "endi1982@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "codesleeve/laravel-stapler": "1.0.*"
+    },
     "autoload": {
         "psr-0": {
-            "Laravel\\News": "src/"
+            "Terranet\\News": "src/"
         },
         "files": [
             "src/helpers.php"
