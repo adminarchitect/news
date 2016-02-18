@@ -3,6 +3,7 @@
 namespace Terranet\News;
 
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
+use Terranet\News\Console\NewsTableCommand;
 
 class ServiceProvider extends LaravelServiceProvider
 {
@@ -12,8 +13,8 @@ class ServiceProvider extends LaravelServiceProvider
             define('_TERRANET_NEWS_', 1);
         }
 
-        $baseDir = base_path("vendor/laravel/news");
-        $this->publishes(["{$baseDir}/src/routes.php" => $routes = app_path('Http/Laravel/News/routes.php')], 'routes');
+        $baseDir = base_path("vendor/terranet/news");
+        $this->publishes([$local = "{$baseDir}/publishes/routes.php" => $routes = app_path('Http/Terranet/News/routes.php')], 'routes');
 
         if (! $this->app->routesAreCached()) {
             if (file_exists($routes)) {
@@ -21,7 +22,7 @@ class ServiceProvider extends LaravelServiceProvider
                 require_once $routes;
             } else {
                 /** @noinspection PhpIncludeInspection */
-                require_once "{$baseDir}/src/routes.php";
+                require_once $local;
             }
         }
     }
@@ -33,22 +34,14 @@ class ServiceProvider extends LaravelServiceProvider
 
     protected function registerCommands()
     {
-        $this->app->singleton('terranet.options', function ($app) {
-            return new Manager($app);
+        $this->app->singleton('terranet.news', function ($app) {
+            //
         });
 
-        $this->app->singleton('command.options.table', function ($app) {
-            return new OptionsTableCommand($app['files'], $app['composer']);
+        $this->app->singleton('command.news.table', function ($app) {
+            return new NewsTableCommand($app['files'], $app['composer']);
         });
 
-        $this->app->singleton('command.options.make', function ($app) {
-            return new OptionMakeCommand($app['files'], $app['composer']);
-        });
-
-        $this->app->singleton('command.options.remove', function ($app) {
-            return new OptionRemoveCommand($app['files'], $app['composer']);
-        });
-
-        $this->commands(['command.options.table', 'command.options.make', 'command.options.remove']);
+        $this->commands(['command.news.table']);
     }
 }
