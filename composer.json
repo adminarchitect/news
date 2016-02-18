@@ -1,0 +1,20 @@
+{
+    "name": "laravel/news",
+    "description": "News management package for Laravel",
+    "authors": [
+        {
+            "name": "endi",
+            "email": "endi1982@gmail.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-0": {
+            "Laravel\\News": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev"
+}
