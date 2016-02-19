@@ -21,8 +21,10 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
     protected $table = 'news_items';
 
     protected $fillable = [
-        'title', 'slug', 'excerpt', 'body', 'image', 'status',
+        'title', 'slug', 'image', 'excerpt', 'body', 'status',
     ];
+
+    protected $appends = ['image', 'url'];
 
     protected $sluggable = [
         'build_from' => 'title',
@@ -82,5 +84,25 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
     public function presentBody()
     {
         return '<div class="well">' . $this->attributes['body'] . '</div>';
+    }
+
+    public function route()
+    {
+        return route('news.show', ['slug' => $this->getSlug()]);
+    }
+
+    public function linkToRoute()
+    {
+        return link_to_route('news.show', $this->title, ['slug' => $this->getSlug()]);
+    }
+
+    public function getImageAttribute($value = null)
+    {
+        return $this->image->url();
+    }
+
+    public function getUrlAttribute($value = null)
+    {
+        return $this->route();
     }
 }

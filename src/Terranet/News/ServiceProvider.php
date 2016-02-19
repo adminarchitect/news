@@ -2,6 +2,8 @@
 
 namespace Terranet\News;
 
+use App\NewsCategory;
+use App\NewsItem;
 use Cviebrock\EloquentSluggable\SluggableServiceProvider;
 use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 use Terranet\News\Console\NewsTableCommand;
@@ -40,8 +42,11 @@ class ServiceProvider extends LaravelServiceProvider
 
     protected function registerCommands()
     {
-        $this->app->singleton('terranet.news', function ($app) {
-            //
+        $this->app->singleton('Terranet\News\Contracts\NewsRepository', function() {
+            return new NewsRepository(
+                NewsItem::class,
+                NewsCategory::class
+            );
         });
 
         $this->app->singleton('command.news.table', function ($app) {
