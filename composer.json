@@ -1,10 +1,11 @@
 {
-    "name": "terranet/news",
-    "description": "Admin Architect news model",
+    "name": "adminarchitect/news",
+    "description": "Admin Architect - News model",
     "keywords": [
         "admin architect",
         "laravel",
-        "news"
+        "news",
+        "http://adminarchitect.com"
     ],
     "authors": [
         {
