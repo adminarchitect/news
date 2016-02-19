@@ -1,4 +1,4 @@
-# Terranet News
+# Admin Architect - News module
 terranet/news provides the default skeleton for Admin Architect news module.
 It includes News &amp; News Categories modules out of the box as like as eloquent models and news repository.
 
@@ -6,20 +6,11 @@ It includes News &amp; News Categories modules out of the box as like as eloquen
 
 `Note:` this is not standalone package, it can be used only in conjunction with `Admin Architect` (`terranet/administrator`) package.
 
-Learn the composer how to install the package by registering new repository
-
-```
-"repositories": [
-    {
-        "type": "git",
-        "url": "git@gitlab.top.md:terranet/news.git"
-    }
-]
 ```
 then require it:
 
 ```
-composer require terranet/news
+composer require adminarchitect/news
 ```
 
 register News service provider by adding to the app/config.php `providers` section:
