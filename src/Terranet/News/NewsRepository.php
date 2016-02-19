@@ -2,6 +2,9 @@
 
 namespace Terranet\News;
 
+use App\NewsCategory;
+use App\NewsItem;
+use Illuminate\Database\Eloquent\Collection;
 use Terranet\News\Contracts\NewsRepository as NewsContract;
 
 class NewsRepository implements NewsContract
@@ -19,6 +22,26 @@ class NewsRepository implements NewsContract
         $this->categoriesModel = $this->createModel($categoriesModel);
     }
 
+    /**
+     * Create model
+     *
+     * @param $class
+     * @return mixed
+     */
+    protected function createModel($class)
+    {
+        if (is_string($class))
+            $class = new $class;
+
+        return $class;
+    }
+
+    /**
+     * Set number of fetched items
+     *
+     * @param $perPage
+     * @return $this
+     */
     public function setPerPage($perPage)
     {
         $this->perPage = (int) $perPage;
@@ -26,25 +49,66 @@ class NewsRepository implements NewsContract
         return $this;
     }
 
+    /**
+     * Fetch news in descending order
+     *
+     * @param int $page
+     * @return Collection
+     */
     public function recent($page = 1)
     {
-        return $this->newsModel->orderBy('created_at', 'desc')->forPage($page)->take($this->perPage)->get();
+        return $this->newsModel
+            ->take($this->perPage)
+            ->forPage($page)
+            ->orderBy('created_at', 'desc')
+            ->get();
     }
 
+    /**
+     * Find news by unique identifier
+     *
+     * @param $slug
+     * @return NewsItem
+     */
     public function findBySlug($slug)
     {
-        return $this->newsModel->with('categories')->whereSlug($slug)->first();
+        return $this->newsModel
+            ->with('categories')
+            ->whereSlug($slug)
+            ->first();
     }
 
+    /**
+     * Find news by category identifier
+     *
+     * @param $slug
+     * @param int $page
+     * @return Collection
+     */
     public function findByCategory($slug, $page = 1)
     {
-        $category = $this->categoriesModel->whereSlug($slug)->first();
+        if ($category = $this->fetchCategory($slug)) {
+            return $category->news()
+                ->with('categories')
+                ->take($this->perPage)
+                ->forPage($page)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
 
-        return $category->news()->with('categories')->orderBy('created_at', 'desc')->forPage($page)->take($this->perPage)->get();
+        return Collection::make([]);
     }
 
-    protected function createModel($class)
+    /**
+     * Fetch category by identifier
+     *
+     * @param $slug
+     * @return NewsCategory
+     */
+    protected function fetchCategory($slug)
     {
-        return new $class;
+        return $this->categoriesModel
+            ->whereSlug($slug)
+            ->first();
     }
 }
