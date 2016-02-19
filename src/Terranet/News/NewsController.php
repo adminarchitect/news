@@ -4,20 +4,9 @@ namespace Terranet\News;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Terranet\News\Contracts\NewsRepository;
 
 class NewsController extends Controller
 {
-    /**
-     * @var NewsRepository
-     */
-    protected $repository;
-
-    public function __construct(NewsRepository $repository)
-    {
-        $this->repository = $repository;
-    }
-
     /**
      * List recent news
      *
@@ -27,8 +16,8 @@ class NewsController extends Controller
     public function index(Request $request)
     {
         $page = $request->get('page', 1);
-
-        return $this->repository->recent($page);
+        
+        return news()->recent($page);
     }
 
     /**
@@ -39,7 +28,7 @@ class NewsController extends Controller
      */
     public function show($slug)
     {
-        return $this->repository->findBySlug($slug);
+        return news()->findBySlug($slug);
     }
 
     /**
@@ -53,6 +42,6 @@ class NewsController extends Controller
     {
         $page = $request->get('page', 1);
 
-        return $this->repository->findByCategory($slug, $page);
+        return news()->findByCategory($slug, $page);
     }
 }
