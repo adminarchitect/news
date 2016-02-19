@@ -42,8 +42,9 @@ php artisan vendor:publish [--provider="Terranet\\News\\ServiceProvider"]
 Run artisan command to create migration:
 
 ```
-php artisan news:table
+php artisan news:tables
 ```
+
 this will create the migration file in the database/migrations directory...
 
 Run migration:
