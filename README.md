@@ -1,5 +1,5 @@
 # Admin Architect - News module
-terranet/news provides the default skeleton for Admin Architect news module.
+adminarchitect/news provides the default skeleton for Admin Architect news module.
 It includes News &amp; News Categories modules out of the box as like as eloquent models and news repository.
 
 ## Installation
