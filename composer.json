@@ -1,10 +1,15 @@
 {
     "name": "terranet/news",
-    "description": "News management package for Laravel",
+    "description": "Admin Architect news model",
+    "keywords": [
+        "admin architect",
+        "laravel",
+        "news"
+    ],
     "authors": [
         {
             "name": "endi",
-            "email": "endi1982@gmail.com"
+            "email": "endi@terranet.md"
         }
     ],
     "require": {
@@ -18,6 +23,5 @@
         "files": [
             "src/helpers.php"
         ]
-    },
-    "minimum-stability": "dev"
+    }
 }
