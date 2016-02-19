@@ -36,3 +36,17 @@ now you can publish the whole package resources by running:
 ```
 php artisan vendor:publish [--provider="Terranet\\News\\ServiceProvider"]
 ```
+
+## Migrations
+
+Run artisan command to create migration:
+
+```
+php artisan news:table
+```
+this will create the migration file in the database/migrations directory...
+
+Run migration:
+```
+php artisan migrate
+```
