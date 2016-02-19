@@ -36,6 +36,8 @@ now you can publish the whole package resources by running:
 ```
 php artisan vendor:publish [--provider="Terranet\\News\\ServiceProvider"]
 ```
+Two new modules: News and NewsCategories will be copied into the `App\Http\Terranet\Administrator\Modules` directory.
+Also associated eloquent models will be added as well to `app` directory...
 
 ## Migrations
 
