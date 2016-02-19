@@ -16,7 +16,7 @@ class ServiceProvider extends LaravelServiceProvider
             define('_TERRANET_NEWS_', 1);
         }
 
-        $baseDir = base_path("vendor/terranet/news");
+        $baseDir = realpath(__DIR__ . '/../../../');
         $local = "{$baseDir}/publishes/routes.php";
         $routes = app_path('Http/Terranet/News/routes.php');
 
