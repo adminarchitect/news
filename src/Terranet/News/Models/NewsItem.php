@@ -2,6 +2,7 @@
 
 namespace Terranet\News\Models;
 
+use App\NewsCategory as AppNewsCategory;
 use Codesleeve\Stapler\ORM\EloquentTrait as StaplerableTrait;
 use Codesleeve\Stapler\ORM\StaplerableInterface;
 use Cviebrock\EloquentSluggable\SluggableInterface;
@@ -54,7 +55,7 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
      */
     public function categories()
     {
-        return $this->belongsToMany(NewsCategory::class, 'news_category_items');
+        return $this->belongsToMany(AppNewsCategory::class, 'news_category_items');
     }
 
     public function presentStatus()
@@ -95,8 +96,12 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
 
     public function getImagesAttribute()
     {
+        if (! $this->image->originalFilename()) {
+            return [];
+        }
+
         return array_build($this->image->getConfig()->styles, function ($index, $style) {
-            if (! $size = $style->dimensions) {
+            if ((! $size = $style->dimensions)) {
                 list($w, $h) = getimagesize($this->image->path());
 
                 $size = "{$w}x{$h}";
