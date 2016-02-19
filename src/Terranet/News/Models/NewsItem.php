@@ -24,7 +24,9 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
         'title', 'slug', 'image', 'excerpt', 'body', 'status',
     ];
 
-    protected $appends = ['image', 'url'];
+    protected $appends = ['url', 'images'];
+
+    protected $hidden = ['image_file_name', 'image_file_size', 'image_content_type', 'image_updated_at'];
 
     protected $sluggable = [
         'build_from' => 'title',
@@ -86,23 +88,39 @@ class NewsItem extends Model implements StaplerableInterface, SluggableInterface
         return '<div class="well">' . $this->attributes['body'] . '</div>';
     }
 
-    public function route()
-    {
-        return route('news.show', ['slug' => $this->getSlug()]);
-    }
-
     public function linkToRoute()
     {
         return link_to_route('news.show', $this->title, ['slug' => $this->getSlug()]);
     }
 
-    public function getImageAttribute($value = null)
+    public function getImagesAttribute()
     {
-        return $this->image->url();
+        return array_build($this->image->getConfig()->styles, function ($index, $style) {
+            if (! $size = $style->dimensions) {
+                list($w, $h) = getimagesize($this->image->path());
+
+                $size = "{$w}x{$h}";
+            }
+
+            return [
+                $style->name,
+                [
+                    'url' => $this->image->url($style->name),
+                    'name' => $this->attributes['image_file_name'],
+                    'dimensions' => $size,
+                    'type' => $this->attributes['image_content_type'],
+                ],
+            ];
+        });
     }
 
     public function getUrlAttribute($value = null)
     {
         return $this->route();
+    }
+
+    public function route()
+    {
+        return route('news.show', ['slug' => $this->getSlug()]);
     }
 }
