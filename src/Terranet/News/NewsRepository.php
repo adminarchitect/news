@@ -58,6 +58,7 @@ class NewsRepository implements NewsContract
     public function recent($page = 1)
     {
         return $this->newsModel
+            ->with('categories')
             ->take($this->perPage)
             ->forPage($page)
             ->orderBy('created_at', 'desc')
