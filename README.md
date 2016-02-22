@@ -6,7 +6,7 @@ It includes News &amp; News Categories modules out of the box as like as eloquen
 
 `Note:` this is not standalone package, it can be used only in conjunction with `Admin Architect` (`terranet/administrator`) package.
 
-```
+
 then require it:
 
 ```
