@@ -4,7 +4,7 @@ namespace Terranet\News\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Filesystem\Filesystem;
-use Illuminate\Foundation\Composer;
+use Illuminate\Support\Composer;
 
 class NewsTableCommand extends Command
 {
